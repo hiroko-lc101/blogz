@@ -2,18 +2,17 @@
 {% block content %}
 
 {% if posts|length == 0 %}
-    <h1>Build a Blog</h1>
     <P>No posts yet</P>
 {% else %}
-    {% if posts|length == 1 %}
-        <h1>{{ posts[0].title }}</h1>
+    {% if page_title == "" %} 
+        <h2>{{ posts[0].title }}</h2>
         {{ posts[0].body }}
+        <p class="by">written by <a href="/blog?user={{ posts[0].owner.username }}">{{ posts[0].owner.username }}</a></p>
     {% else %}
-        <h1>Build a Blog</h1>
         {% for post in posts %}
             <h2><a href="/blog?id={{ post.id }}">{{ post.title }}</a></h2>
             {{ post.body }}
-            <hr />
+            <p class="by">written by <a href="/blog?user={{ post.owner.username }}">{{ post.owner.username }}</a></p>
         {% endfor %}
     {% endif %}
 {% endif %}

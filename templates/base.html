@@ -1,24 +1,43 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <style type="text/css" >
-            h1 {
-                text-align: center;
-            }
+        <style type="text/css">
             .error {
-                font-style: italic;
                 color: red;
+            }
+            .by {
+                font-style: italic;
             }
         </style>
         <title>{{ page_title }}</title>
     </head>
     <body>
         <header>
-            <a href="/blog">Main Blog Page</a>
+            <a href="/">home</a>
             &nbsp;&nbsp;
-            <a href="/newpost">Add a Blog Entry</a>
+            <a href="/blog">all posts</a>
+            &nbsp;&nbsp;
+            <a href="/newpost">new post</a>
+            <div style="float: right">
+                {% if 'username' in session %}
+                    {{ session['username'] }}
+                    &nbsp;&nbsp;
+                    <a href="/logout">logout</a>
+                {% else %}
+                    <a href="/login">login</a>
+                    &nbsp;&nbsp;
+                    <a href="/logout">logout</a>
+                {% endif %}           
+            </div>               
         </header>
         <main>
+            <h1>{{ page_title }}</h1>
+            {% with messages = get_flashed_messages(with_categories=True) %}
+               {% for category,message in messages %}
+                    <p class='{{ category }}'>{{ message }}</p>
+                {% endfor %}                
+            {% endwith %}
+
             {% block content %}
             {% endblock %}
         </main>
